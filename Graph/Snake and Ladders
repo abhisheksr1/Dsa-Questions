@@ -1,0 +1,53 @@
+class Solution {
+public:
+    pair<int,int> findPos(int x,int n){
+        int row = n - (x-1)/n - 1;
+        int col = (x-1)%n;
+        
+        if(row%2==n%2){
+            return {row, n-col-1};
+        }
+        else{
+            return {row,col};
+        }
+    }
+    
+    int snakesAndLadders(vector<vector<int>>& board) {
+        
+        int n = board.size();
+        vector<vector<int>> visited(n,vector<int>(n,0));
+        
+        queue< pair<int,int> > q;
+        q.push({1,0});
+        
+        while(!q.empty()){
+            int square = q.front().first;
+            int moves = q.front().second;
+            q.pop();
+            if(square == n*n)
+                return moves;
+            
+            for(int i=1;i<=6;i++){
+                if(square+i > n*n)
+                    break;
+                
+                pair<int,int> p = findPos(square+i, n);
+                
+                if(visited[p.first][p.second]==1)
+                {continue;}
+                
+                visited[p.first][p.second] = 1;
+                
+                if(board[p.first][p.second]==-1){
+                    q.push({square+i, moves+1});
+                }
+                else{
+                    q.push({board[p.first][p.second], moves+1});
+                }
+                
+            }   
+        }
+        
+        return -1;
+    }
+};
