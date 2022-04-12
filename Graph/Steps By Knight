@@ -1,0 +1,52 @@
+typedef pair< pair<int,int> , int > ppi;
+class Solution 
+{
+    public:
+    bool isPos(int x, int y, int n,  vector<vector<int>> &visited){
+        if(x>=1 && x<=n && y>=1 && y<=n && !visited[n-y][x-1]){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    //Function to find out minimum steps Knight needs to reach target position.
+	int minStepToReachTarget(vector<int>&KnightPos,vector<int>&TargetPos,int N)
+	{
+	    int sx = KnightPos[0];
+	    int sy = KnightPos[1];
+	    int ex = TargetPos[0];
+	    int ey = TargetPos[1];
+	    
+	    vector<vector<int>> visited(N, vector<int>(N,0));
+	    queue<ppi> q;
+	    q.push({{sx,sy},0});
+	    visited[N-sy][sx-1]=1;
+	    
+	    int addx[] = {1,2,2,1,-1,-2,-2,-1};
+	    int addy[] = {2,1,-1,-2,-2,-1,1,2};
+	    
+	    
+	    while(!q.empty()){
+	        pair<int, int> cor = q.front().first;
+	        int x = cor.first;
+	        int y = cor.second;
+	        int steps = q.front().second;
+	        q.pop();
+	        
+	        if(x==ex && y==ey){
+	            return steps;
+	        }
+	        
+	        for(int i=0;i<8;i++){
+	            if( isPos(x+addx[i], y+addy[i], N, visited) ){
+	                visited[N-y-addy[i]][x+addx[i]-1]=1;
+                    q.push({{x+addx[i],y+addy[i]},steps+1});
+	            }
+	        }
+	        
+	    }
+	    
+	    return -1;
+	}
+};
