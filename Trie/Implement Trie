@@ -1,0 +1,75 @@
+/*
+    Your Trie object will be instantiated and called as such:
+    Trie* obj = new Trie();
+    obj->insert(word);
+    bool check2 = obj->search(word);
+    bool check3 = obj->startsWith(prefix);
+ */
+
+class Node{
+public:
+	
+	Node* child[26];
+	bool flag;
+	
+	Node(){
+		flag = false;
+		for(int i=0;i<26;i++){
+			child[i] = NULL;
+		}
+	}
+};
+
+class Trie {
+
+public:
+	Node* root;
+    /** Initialize your data structure here. */
+    Trie() {
+		root = new Node();
+    }
+
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+		Node* node = root;
+		for(int i=0;i<word.length();i++){
+			if(node->child[word[i] - 'a']==NULL){
+				Node* temp = new Node();
+				node->child[word[i] - 'a'] = temp;
+				node = temp;
+			}
+			else{
+				node = node->child[word[i] - 'a'];
+			}
+		}
+		node->flag = true;
+    }
+
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+		Node* node = root;
+		for(int i=0;i<word.length();i++){
+			if(node->child[word[i] - 'a']==NULL){
+				return false;
+			}
+			else{
+				node = node->child[word[i] - 'a'];
+			}
+		}
+		return node->flag;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+		Node* node = root;
+		for(int i=0;i<prefix.length();i++){
+			if(node->child[prefix[i] - 'a']==NULL){
+				return false;
+			}
+			else{
+				node = node->child[prefix[i] - 'a'];
+			}
+		}
+		return true;
+    }
+};
