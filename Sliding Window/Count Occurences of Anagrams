@@ -1,0 +1,46 @@
+class Solution{
+public:
+    bool check(int occur[], int window[]){
+        for(int i=0;i<26;i++){
+            if(occur[i]!=window[i]){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+	int search(string pat, string txt) {
+	    int ans = 0;
+	    
+	    int occur[26] = {0};
+	    int window[26] = {0};
+	    
+	    int k = pat.length();
+	    int n = txt.length();
+	    
+	    for(int i=0;i<k;i++){
+	        occur[pat[i] - 'a']++;
+	        window[txt[i] - 'a']++;
+	    }
+	   
+	    
+	    if(check(occur,window)){
+	        ans++;
+	    }
+	    
+	    for(int i=k;i<n;i++){
+	        window[txt[i-k] - 'a']--;
+	        
+	        window[txt[i] - 'a']++;
+	        
+	        if(check(occur,window)){
+	            ans++;
+	        }
+	    }
+	    
+	    
+	    return ans;
+	}
+
+};
